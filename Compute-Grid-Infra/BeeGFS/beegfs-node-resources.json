@@ -45,8 +45,8 @@
     "subnetRef": "[concat(variables('vnetID'),'/subnets/', parameters('nodeSettings').subnetName)]",
     "nicName": "[concat(variables('vmName'), 'nic')]",
     "ipConfigName": "[concat(variables('vmName'), 'ipconfig')]",
-    "computeApiVersion": "2016-03-30",
-    "networkApiVersion": "2016-03-30",
+    "computeApiVersion": "2017-03-30",
+    "networkApiVersion": "2016-06-01",
     "storageApiVersion": "2015-06-15",
     "extensionApiVersion": "2015-06-15",
     "deploymentApiVersion": "2016-09-01",
@@ -188,6 +188,7 @@
       "dependsOn": [
       ],
       "properties": {
+        "enableAcceleratedNetworking": true,
         "ipConfigurations": [
           {
             "name": "[variables('ipConfigName')]",
