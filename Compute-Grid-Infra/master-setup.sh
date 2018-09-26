@@ -105,10 +105,10 @@ mount_nfs()
 	yum -y install nfs-utils nfs-utils-lib
 
     echo "$SHARE_HOME    *(rw,async,no_root_squash)" >> /etc/exports   
-	service rpcbind enable 
-	service nfs enable 
-	service rpcbind start
-	service nfs start
+	systemctl enable rpcbind || echo "Already enabled"
+    systemctl enable nfs-server || echo "Already enabled"
+    systemctl start rpcbind || echo "Already enabled"
+    systemctl start nfs-server || echo "Already enabled"
 		
 }
 create_nismap()
@@ -139,6 +139,18 @@ create_nismap()
 			done
         done
 }
+start_networkservice_in_cron()
+{
+	cat >  /root/start_networknamager.sh << "EOF"
+#!/bin/bash
+ systemctl start NetworkManager.service
+EOF
+	chmod 700 /root/start_networknamager.sh
+	crontab -l > Networkcron
+	echo "@reboot /root/start_networknamager.sh >>/root/log.txt" >> Networkcron
+	crontab Networkcron
+	rm Networkcron
+}
 nis_server()
 {
 	
@@ -161,10 +173,10 @@ nis_server()
 	chkconfig ypbind on	
 	grep | /usr/lib64/yp/ypinit -m
 	sleep 10
-	service NetworkManager stop
+	systemctl stop NetworkManager.service
+	systemctl disable NetworkManager.service
 	systemctl start ypbind 
 	service NetworkManager start
-
 	cd /var/yp
 	/usr/lib64/yp/makedbm -u ${NIS_DOMAIN}/hosts.byname> mymap.temp
 	create_nismap
@@ -172,6 +184,7 @@ nis_server()
 	/usr/lib64/yp/makedbm mymap.temp ${NIS_DOMAIN}/hosts.byname
 	yppush hosts.byname	
 	make
+	start_networkservice_in_cron
 }
 nis_server
 mount_nfs_suse()
