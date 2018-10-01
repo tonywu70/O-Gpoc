@@ -6,7 +6,6 @@ log()
 	echo "$1"
 	
 }
-
 while getopts :a:k:j:l:u:t:p optname; do
   log "Option $optname set with value ${OPTARG}"  
   case $optname in
@@ -37,6 +36,12 @@ HPC_GROUP=hpc
 HPC_GID=7007
 
 MASTER_NAME=`hostname`
+
+is_redhat()
+{
+    python -mplatform | grep -qi Redhat
+    return $?
+}
 
 is_centos()
 {
@@ -139,11 +144,19 @@ create_nismap()
 			done
         done
 }
+
 start_networkservice_in_cron()
 {
 	cat >  /root/start_networknamager.sh << "EOF"
 #!/bin/bash
- systemctl start NetworkManager.service
+service NetworkManager stop
+systemctl start rpcbind
+systemctl start ypserv
+systemctl start ypxfrd
+systemctl start yppasswdd
+sleep 10
+systemctl restart ypbind
+systemctl start NetworkManager.service
 EOF
 	chmod 700 /root/start_networknamager.sh
 	crontab -l > Networkcron
@@ -166,17 +179,12 @@ nis_server()
 	systemctl start ypserv
 	systemctl start ypxfrd
 	systemctl start yppasswdd	
-	chkconfig rpcbind on 
-	chkconfig ypserv on 
-	chkconfig ypxfrd on 
-	chkconfig yppasswdd on
-	chkconfig ypbind on	
 	grep | /usr/lib64/yp/ypinit -m
 	sleep 10
 	systemctl stop NetworkManager.service
 	systemctl disable NetworkManager.service
 	systemctl start ypbind 
-	service NetworkManager start
+	systemctl start NetworkManager.service
 	cd /var/yp
 	/usr/lib64/yp/makedbm -u ${NIS_DOMAIN}/hosts.byname> mymap.temp
 	create_nismap
@@ -243,7 +251,6 @@ setup_centos()
     # disable selinux
     sed -i 's/enforcing/disabled/g' /etc/selinux/config
     setenforce permissive
-
 	mount_nfs
 	setup_user
 	setup_blobxfer
@@ -264,7 +271,7 @@ fi
 
 setup_disks
 
-if is_centos; then
+if is_centos || is_redhat; then
 	setup_centos
 elif is_suse; then
 	setup_suse
