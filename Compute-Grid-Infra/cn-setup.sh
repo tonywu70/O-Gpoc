@@ -158,12 +158,16 @@ EOF
 	service network restart
 }
 
-
 start_networkservice_in_cron()
 {
 	cat >  /root/start_networknamager.sh << "EOF"
 #!/bin/bash
- systemctl start NetworkManager.service
+service NetworkManager stop
+systemctl restart ypbind
+mount -a
+systemctl start NetworkManager.service
+/etc/init.d/pbs start
+
 EOF
 	chmod 700 /root/start_networknamager.sh
 	crontab -l > Networkcron
@@ -171,6 +175,7 @@ EOF
 	crontab Networkcron
 	rm Networkcron
 }
+
 setup_nisclient()
 {
 	yum -y install rpcbind ypbind
@@ -181,12 +186,9 @@ setup_nisclient()
 	setup_nisdns
 	systemctl start rpcbind ypbind 
 	systemctl enable rpcbind ypbind
-	systemctl stop NetworkManager.service
-	systemctl disable NetworkManager.service
-	systemctl restart ypbind 
+	service NetworkManager stop		
+	systemctl restart ypbind	
 	service NetworkManager start
-	chkconfig ypbind on
-	chkconfig rpcbind on
 	start_networkservice_in_cron
 	
 }
@@ -279,7 +281,8 @@ elif [ "$SHARED_STORAGE" == "otherstorage" ]; then
 fi
 
 setup_intel_mpi
-
+#systemctl stop NetworkManager.service
+#systemctl disable NetworkManager.service
 #install_blobxfer
 
 if [ -n "$POST_INSTALL_COMMAND" ]; then
@@ -288,6 +291,7 @@ if [ -n "$POST_INSTALL_COMMAND" ]; then
 fi
 # Create marker file so we know we're configured
 touch $SETUP_MARKER
-
+systemctl stop NetworkManager.service
+systemctl disable NetworkManager.service
 shutdown -r +1 &
 exit 0
