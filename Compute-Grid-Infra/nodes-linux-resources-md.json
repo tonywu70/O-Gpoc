@@ -56,7 +56,7 @@
 
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "computeApiVersion": "2016-04-30-preview",
-    "networkApiVersion": "2016-06-01",
+    "networkApiVersion": "2016-03-30",
     "natStartPort": 50000,
     "natEndPort": 50119,
     "natBackendPort": 22,
@@ -147,8 +147,7 @@
               {
                 "name": "[variables('nicName')]",
                 "properties": {
-                  "primary": true,
-                   "enableAcceleratedNetworking": true,
+                  "primary": true,                  
                   "ipConfigurations": [
                     {
                       "name": "[variables('ipConfigName')]",
