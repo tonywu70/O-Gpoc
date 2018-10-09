@@ -34,6 +34,7 @@ is_master()
 set_DNS()
 {
     sed -i  "s/PEERDNS=yes/PEERDNS=no/g" /etc/sysconfig/network-scripts/ifcfg-eth0
+	echo "dns=none">>/etc/NetworkManager/NetworkManager.conf
     echo "in set_DNS, updating resolv.conf"
     #sed -i  "s/search/#search/g" /etc/resolv.conf
 	echo "search $DNS_SERVER_NAME">>/etc/resolv.conf	
@@ -144,9 +145,9 @@ EOF
 
 		set-hostname
 		sleep 10
-        yum install -y hwloc-devel expat-devel tcl-devel expat        
-	    rpm -ivh --nodeps /mnt/CentOS_7/pbspro-execution-14.1.0-13.1.x86_64.rpm
-        cat > /etc/pbs.conf << EOF
+		yum install -y hwloc-devel expat-devel tcl-devel expat
+		rpm -ivh --nodeps /mnt/CentOS_7/pbspro-execution-14.1.0-13.1.x86_64.rpm
+		cat > /etc/pbs.conf << EOF
 PBS_SERVER=$MASTER_HOSTNAME
 PBS_START_SERVER=0
 PBS_START_SCHED=0
