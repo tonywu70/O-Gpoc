@@ -263,7 +263,7 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-sed  "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
+sed -i "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
 service NetworkManager restart
 setup_nisclient
 setup_user
