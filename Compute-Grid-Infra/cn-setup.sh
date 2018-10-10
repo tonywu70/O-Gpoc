@@ -124,9 +124,8 @@ echo "${NAS_NAME} ${NAS_DEVICE} ${NAS_MOUNT}"
 setup_nisdns()
 {
 	sed -i  "s/PEERDNS=yes/PEERDNS=no/g" /etc/sysconfig/network-scripts/ifcfg-eth0  
-	sed  "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
-	#echo "dns=none">>/etc/NetworkManager/NetworkManager.conf
-	service NetworkManager restart
+	#sed  "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf	
+	#service NetworkManager restart
     sed -i  "s/search/#search/g" /etc/resolv.conf
 	echo "search ${NIS_SERVER_DOMAIN}">>/etc/resolv.conf	
 	echo "domain ${NIS_SERVER_DOMAIN}">>/etc/resolv.conf
@@ -181,6 +180,8 @@ EOF
 
 setup_nisclient()
 {
+	sed  "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
+	service NetworkManager restart
 	yum -y install rpcbind ypbind
 	ypdomainname ${NAS_NAME}
 	echo "NISDOMAIN=${NIS_SERVER_DOMAIN}" >> /etc/sysconfig/network
