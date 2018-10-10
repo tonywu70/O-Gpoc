@@ -264,7 +264,7 @@ if is_ubuntu; then
 	done
 fi
 
-setup_nisclient
+#setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
 	install_ganglia
