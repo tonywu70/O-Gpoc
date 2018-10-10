@@ -34,6 +34,8 @@ is_master()
 set_DNS()
 {
     sed -i  "s/PEERDNS=yes/PEERDNS=no/g" /etc/sysconfig/network-scripts/ifcfg-eth0
+	sed -i "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
+	service NetworkManager restart
     echo "in set_DNS, updating resolv.conf"
     sed -i  "s/search/#search/g" /etc/resolv.conf
 	echo "search $DNS_SERVER_NAME">>/etc/resolv.conf	
@@ -64,6 +66,7 @@ EOF
     echo "in set_DNS, updated nsswitch resolv.conf, restarting network service"
 	service network restart
 }
+
 set_DNS
 enable_kernel_update()
 {
