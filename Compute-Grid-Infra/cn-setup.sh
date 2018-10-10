@@ -179,9 +179,7 @@ EOF
 }
 
 setup_nisclient()
-{
-	sed  "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
-	service NetworkManager restart
+{	
 	yum -y install rpcbind ypbind
 	ypdomainname ${NAS_NAME}
 	echo "NISDOMAIN=${NIS_SERVER_DOMAIN}" >> /etc/sysconfig/network
@@ -265,6 +263,8 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
+sed  "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
+service NetworkManager restart
 setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
