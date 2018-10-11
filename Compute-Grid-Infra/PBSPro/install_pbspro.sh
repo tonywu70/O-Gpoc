@@ -193,8 +193,8 @@ if [ -e "$SETUP_MARKER" ]; then
     exit 0
 fi
 
-#set-hostname
-install_pbspro
+set-hostname
+#install_pbspro
 
 # Create marker file so we know we're configured
 touch $SETUP_MARKER

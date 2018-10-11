@@ -271,7 +271,7 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-set-hostname
+#set-hostname
 #setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
