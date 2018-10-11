@@ -253,8 +253,8 @@ setup_user()
     mkdir -p $SHARE_SCRATCH
     mkdir -p $NFS_MOUNT
 
-	echo "$MASTER_NAME:$SHARE_HOME $SHARE_HOME    nfs    rw,vers=3,auto,_netdev 0 0" >> /etc/fstab
-    echo "$NFS_SERVER_NAME:$NAS_DEVICE $NAS_MOUNT nfs rsize=65536,wsize=65536,_netdev,nofail 0 0" >> /etc/fstab
+	#echo "$MASTER_NAME:$SHARE_HOME $SHARE_HOME    nfs    rw,vers=3,auto,_netdev 0 0" >> /etc/fstab
+    echo "$NAS_NAME:$NAS_DEVICE $NAS_MOUNT nfs rsize=65536,wsize=65536,_netdev,nofail 0 0" >> /etc/fstab
 	mount -a
 	mount
    
