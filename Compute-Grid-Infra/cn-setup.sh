@@ -156,6 +156,7 @@ EOF
     echo "in set_DNS, updated nsswitch resolv.conf, restarting network service"
 	service network restart
 }
+
 # set hostname in the form host-10-0-0-0
 set-hostname()
 {
@@ -306,8 +307,8 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-set-hostname
 set_DNS
+set-hostname
 #setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
