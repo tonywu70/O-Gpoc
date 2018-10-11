@@ -243,7 +243,7 @@ setup_user()
 {
 	
 	if is_centos; then
-		yum -y install nfs-utils nfs-utils-lib
+		#yum -y install nfs-utils nfs-utils-lib
 	elif is_suse; then
 		zypper -n install nfs-client
 	elif is_ubuntu; then
