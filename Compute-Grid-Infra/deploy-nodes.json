@@ -235,7 +235,7 @@
     "newStorageAccountSuffix": "[toLower(parameters('vmSSPrefix'))]",
     "longNamingInfix": "[toLower(parameters('vmSSPrefix'))]",
     "vmSSPrefix": "[toLower(parameters('vmSSPrefix'))]",
-    "deploymentApiVersion": "2015-11-01",
+    "deploymentApiVersion": "2016-09-01",
     "nodeSettings": {
       "VMsku": "[parameters('VMsku')]",
       "vnetRG": "[parameters('RGvnetName')]",
