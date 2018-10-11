@@ -181,6 +181,12 @@
         "description": "Admin username on all VMs."
       }
     },
+     "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on all VMs."
+      }
+    },
     "sshKeyData": {
       "type": "string",
       "metadata": {
@@ -210,13 +216,7 @@
       "metadata": {
         "description": "Name of VM name where NFS server is installed"
       }
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Admin password on all VMs."
-      }
-    },
+    },   
     "postInstallCommand": {
       "type": "string",
       "metadata": {
