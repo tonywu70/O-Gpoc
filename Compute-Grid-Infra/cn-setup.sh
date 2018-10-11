@@ -121,6 +121,14 @@ install_blobxfer()
 	fi
 }
 echo "${NAS_NAME} ${NAS_DEVICE} ${NAS_MOUNT}"
+# set hostname in the form host-10-0-0-0
+set-hostname()
+{
+	SERVER_IP="$(ip addr show eth0 | grep 'inet ' | cut -f2 | awk '{ print $2}')"
+    ip="$(echo ${SERVER_IP} | sed 's\/.*\\g')"
+	hostip="$(echo ${ip} | sed 's/[.]/-/g')"
+	hostname host-"${hostip}"
+}
 setup_nisdns()
 {
 	sed -i  "s/PEERDNS=yes/PEERDNS=no/g" /etc/sysconfig/network-scripts/ifcfg-eth0  
@@ -263,7 +271,7 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-
+set-hostname
 #setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
@@ -283,7 +291,7 @@ elif [ "$SHARED_STORAGE" == "otherstorage" ]; then
 		install_otherstorage
 fi
 
-setup_intel_mpi
+#setup_intel_mpi
 #systemctl stop NetworkManager.service
 #systemctl disable NetworkManager.service
 #install_blobxfer
