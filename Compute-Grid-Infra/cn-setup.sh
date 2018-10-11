@@ -249,8 +249,7 @@ setup_user()
 		zypper -n install nfs-client
 	elif is_ubuntu; then
 		apt-get -qy install nfs-common 
-	fi
-	yum -y install nfs-utils nfs-utils-lib
+	fi	
     mkdir -p $SHARE_HOME
     mkdir -p $SHARE_SCRATCH
     mkdir -p $NFS_MOUNT
@@ -311,6 +310,8 @@ if is_ubuntu; then
 fi
 set_DNS
 set-hostname
+sleep 10
+yum -y install nfs-utils nfs-utils-lib
 #setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
