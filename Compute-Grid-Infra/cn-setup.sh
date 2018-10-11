@@ -241,6 +241,7 @@ setup_nisclient()
 
 setup_user()
 {
+	yum -y install nfs-utils nfs-utils-lib
 	if is_centos; then
 		yum -y install nfs-utils nfs-utils-lib
 	elif is_suse; then
