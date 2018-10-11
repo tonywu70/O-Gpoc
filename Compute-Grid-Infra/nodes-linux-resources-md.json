@@ -135,8 +135,7 @@
         "tier": "Standard",
         "capacity": "[parameters('instanceCount')]"
       },
-      "properties": {
-        "singlePlacementGroup": true,
+      "properties": {        
         "overprovision": true,
         "upgradePolicy": {
           "mode": "Manual"
