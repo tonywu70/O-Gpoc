@@ -56,7 +56,7 @@
 
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "computeApiVersion": "2017-03-30",
-    "networkApiVersion": "2016-03-30",
+    "networkApiVersion": "2016-06-01",
     "natStartPort": 50000,
     "natEndPort": 50119,
     "natBackendPort": 22,
