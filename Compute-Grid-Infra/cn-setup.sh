@@ -120,7 +120,42 @@ install_blobxfer()
 		pip install --upgrade blobxfer
 	fi
 }
-echo "${NAS_NAME} ${NAS_DEVICE} ${NAS_MOUNT}"
+
+set_DNS()
+{
+    sed -i  "s/PEERDNS=yes/PEERDNS=no/g" /etc/sysconfig/network-scripts/ifcfg-eth0
+	sed -i "/\[main\]/a dns=none" /etc/NetworkManager/NetworkManager.conf
+	service NetworkManager restart
+    echo "in set_DNS, updating resolv.conf"
+    sed -i  "s/search/#search/g" /etc/resolv.conf
+	echo "search $DNS_NAME">>/etc/resolv.conf	
+	echo "domain $DNS_NAME">>/etc/resolv.conf
+	echo "nameserver $DNS_IP">>/etc/resolv.conf
+    echo "in set_DNS, updated resolv.conf"
+
+    echo "in set_DNS, starting to write dhclient-exit-hooks"
+    cat > /etc/dhcp/dhclient-exit-hooks << EOF
+		str1="$(grep -x "search $DNS_NAME" /etc/resolv.conf)"
+		str2="$(grep -x "#search $DNS_NAME" /etc/resolv.conf)"
+		str3="search $DNS_NAME"
+		str4="#search $DNS_NAME"
+		if [ "$str1" == *"$str3"* && "$str2" != *"$str4"* ]; then
+		    :
+		else
+		    echo "$str3" >>/etc/resolv.conf
+		fi		
+EOF
+
+    echo "in set_DNS, written dhclient-exit-hooks"
+    #sed -i 's/required_domain="mydomain.local"/required_domain="nxad01.pttep.local"/g' /etc/dhcp/dhclient-exit-hooks.d/azure-cloud.sh
+    chmod 755 /etc/dhcp/dhclient-exit-hooks
+    echo "in set_DNS, updated Execute permission for dhclient-exit-hooks"
+
+	sed -i  "s/networks:   files/networks:   files dns [NOTFOUND=return]/g"  /etc/nsswitch.conf
+	sed -i  "s/hosts:      files dns/hosts: files dns [NOTFOUND=return]/g"  /etc/nsswitch.conf
+    echo "in set_DNS, updated nsswitch resolv.conf, restarting network service"
+	service network restart
+}
 # set hostname in the form host-10-0-0-0
 set-hostname()
 {
@@ -272,6 +307,7 @@ if is_ubuntu; then
 	done
 fi
 set-hostname
+set_DNS
 #setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
