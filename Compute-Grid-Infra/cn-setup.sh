@@ -242,14 +242,8 @@ setup_nisclient()
 setup_user()
 {
 	
-	if is_centos; then
-		echo "CentOS"
-		#yum -y install nfs-utils nfs-utils-lib
-	elif is_suse; then
-		zypper -n install nfs-client
-	elif is_ubuntu; then
-		apt-get -qy install nfs-common 
-	fi	
+	sleep 10
+	yum -y install nfs-utils nfs-utils-lib
     mkdir -p $SHARE_HOME
     mkdir -p $SHARE_SCRATCH
     mkdir -p $NFS_MOUNT
@@ -308,11 +302,8 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-#set_DNS
+set_DNS
 set-hostname
-setup_nisclient
-sleep 10
-yum -y install nfs-utils nfs-utils-lib
 #setup_nisclient
 setup_user
 if [ "$MONITORING" == "ganglia" ]; then
