@@ -309,8 +309,8 @@ if is_ubuntu; then
 	done
 fi
 #set_DNS
-setup_nisclient
 set-hostname
+setup_nisclient
 sleep 10
 yum -y install nfs-utils nfs-utils-lib
 #setup_nisclient
