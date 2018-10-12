@@ -260,6 +260,8 @@ setup_user()
 	sleep 10
 	yum -y install nfs-utils nfs-utils-lib
 	setup_nfs_in_cron
+	sleep 10
+	yum -y install nfs-utils nfs-utils-lib
     mkdir -p $SHARE_HOME
     mkdir -p $SHARE_SCRATCH
     mkdir -p $NFS_MOUNT
@@ -322,6 +324,9 @@ set_DNS
 set-hostname
 #setup_nisclient
 setup_user
+sleep 10
+yum -y install nfs-utils nfs-utils-lib
+mount -a
 if [ "$MONITORING" == "ganglia" ]; then
 	install_ganglia
 fi
