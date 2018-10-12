@@ -222,6 +222,21 @@ EOF
 	rm Networkcron
 }
 
+setup_nfs_in_cron()
+{
+	cat >  /root/setup_nfs.sh << "EOF"
+#!/bin/bash
+yum -y install nfs-utils nfs-utils-lib
+mount -a
+
+EOF
+	chmod 700 /root/setup_nfs.sh
+	crontab -l > nascron
+	echo "@reboot /root/setup_nfs.sh >>/root/log.txt" >> nascron
+	crontab nascron
+	rm nascron
+}
+
 setup_nisclient()
 {	
 	yum -y install rpcbind ypbind
@@ -244,6 +259,7 @@ setup_user()
 	
 	sleep 10
 	yum -y install nfs-utils nfs-utils-lib
+	setup_nfs_in_cron
     mkdir -p $SHARE_HOME
     mkdir -p $SHARE_SCRATCH
     mkdir -p $NFS_MOUNT
