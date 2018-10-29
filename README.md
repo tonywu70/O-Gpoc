@@ -28,9 +28,11 @@ Theese templates setup a cluster associated with a master node and compute nodes
 * To register the compute nodes in pbs manager __pbs_selfregister.sh__ script is used and run at compute node and placed in PBSpro folder.
 * On master and compute nodes a user called __hpcuser__ is created to do ssh across the node by passwordless login. We used NFS for passwordless login.
 * We are using a pattren for hostname of the compute node pattern is host-<ip with '-' sepration> for example if ip is 10.0.0.0 the hostname would be host-10-0-0-0.
+* Using this template a non-infiniband cluster associated with __accelerated networking__ can be created.
+* __Accelerated Networking__ is worked only with CentOS_7.4, so it is required to create cluster using this image.
 # Compute grid in Azure
 
-These templates will build a compute grid made by a single master VMs running the management services, multiple VM Scaleset for deploying compute nodes, and optionally a set of nodes to run [BeeGFS](http://www.beegfs.com/) as a parallel shared file system. Ganglia is an option for monitoring the cluster load, and [PBS Pro](http://www.pbspro.org/) can optionally be setup for job scheduling.
+These templates will build a compute grid made by a single master VMs running the management services with accelerated networking, multiple VM Scaleset for deploying compute nodes, and optionally a set of nodes to run [BeeGFS](http://www.beegfs.com/) as a parallel shared file system. Ganglia is an option for monitoring the cluster load, and [PBS Pro](http://www.pbspro.org/) can optionally be setup for job scheduling.
 Below is the details of shell scripts :
 * __master-setup.sh__ script runs at master node, placed in __Compute-Grid-Infra__ folder, It setups softwares like NIS server, PBS pro server. To run the script following parameter is required:
   * __AddressSpaceList__ It is required to create NIS map for the hostname and IP pair in hosts.byname file. basically it is used for hostname resolution because we can use NIS server as DNS server.
