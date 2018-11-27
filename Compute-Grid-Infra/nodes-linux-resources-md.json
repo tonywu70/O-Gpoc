@@ -137,7 +137,7 @@
           "vmSize": "[parameters('nodeSettings').VMsku]"
         },
         "osProfile": {
-            "computerNamePrefix": "[parameters('vmssName')]",
+            "computerName": "[parameters('vmssName')]",
             "adminUsername": "[parameters('nodeOSSettings').adminUserName]",
             "adminPassword": "[parameters('adminPassword')]"
           },   
