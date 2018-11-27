@@ -140,15 +140,22 @@
             "computerName": "[parameters('vmssName')]",
             "adminUsername": "[parameters('nodeOSSettings').adminUserName]",
             "adminPassword": "[parameters('adminPassword')]"
-          },   
-          "storageProfile": {
-            "imageReference": "[parameters('nodeOSSettings').imageReference]",
-            "osDisk": {
-              "createOption": "FromImage",
-              "caching": "ReadOnly"
-            },
-            "dataDisks": [ ]
-          }        
+          },
+        "storageProfile": {
+          "imageReference": "[parameters('nodeOSSettings').imageReference]",
+          "osDisk": {
+            "createOption": "FromImage",
+            "caching": "ReadOnly"
+          },
+          "dataDisks": [ ]
+        },
+         "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName')]"
+            }
+          ]
+        }     
         }      
     }
   ]
