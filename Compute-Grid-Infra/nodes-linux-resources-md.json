@@ -211,8 +211,9 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmssName')]",
       "location": "[variables('location')]",
-      "apiVersion": "[variables('computeApiVersion')]",
-      "dependsOn": [
+      "apiVersion": "[variables('computeApiVersion')]",      
+         "dependsOn": [              
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgName'))]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -237,10 +238,7 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
-        },
-         "dependsOn": [              
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
-      ]
+        }
       }
     }
   ]
