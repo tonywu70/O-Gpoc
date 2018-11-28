@@ -213,7 +213,7 @@
       "location": "[variables('location')]",
       "apiVersion": "[variables('computeApiVersion')]",      
          "dependsOn": [              
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
       "properties": {
         "hardwareProfile": {
