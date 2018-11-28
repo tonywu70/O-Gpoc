@@ -237,7 +237,10 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
-        }
+        },
+         "dependsOn": [              
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+      ]
       }
     }
   ]
