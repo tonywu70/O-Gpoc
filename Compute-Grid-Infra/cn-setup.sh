@@ -163,8 +163,8 @@ set-hostname()
 	SERVER_IP="$(ip addr show eth0 | grep 'inet ' | cut -f2 | awk '{ print $2}')"
     ip="$(echo ${SERVER_IP} | sed 's\/.*\\g')"
 	hostip="$(echo ${ip} | sed 's/[.]/-/g')"
-	#hostname host-"${hostip}"
-	hostname ip-"${hostip}"
+	hostname host-"${hostip}"
+	
 }
 setup_nisdns()
 {
