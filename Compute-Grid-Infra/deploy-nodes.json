@@ -148,7 +148,7 @@
         "description": "The VM image of the compute nodes"
       }
     },
-    "vmSSPrefix": {
+    "vmName": {
       "type": "string",
       "metadata": {
         "description": "Base string for naming resources (max length of 8)"
@@ -234,7 +234,7 @@
     "location": "[resourceGroup().location]",
     "newStorageAccountSuffix": "[toLower(parameters('vmSSPrefix'))]",
     "longNamingInfix": "[toLower(parameters('vmSSPrefix'))]",
-    "vmSSPrefix": "[toLower(parameters('vmSSPrefix'))]",
+    "vmSSPrefix": "[parameters('vmName')]",
     "deploymentApiVersion": "2016-09-01",
     "nodeSettings": {
       "VMsku": "[parameters('VMsku')]",
