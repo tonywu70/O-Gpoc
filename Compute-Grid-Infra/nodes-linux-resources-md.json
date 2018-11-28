@@ -247,7 +247,7 @@
       "name": "installCN  ",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmssName'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
