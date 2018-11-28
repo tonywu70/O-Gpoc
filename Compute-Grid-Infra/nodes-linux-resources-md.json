@@ -53,6 +53,7 @@
     "lbName": "[concat(variables('namingInfix'), 'lb')]",
     "pipName": "[concat(variables('namingInfix'), 'pip')]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers/', variables('lbName'))]",
+    "nsgName":  "nsg-compute",
 
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "computeApiVersion": "2017-03-30",
@@ -124,23 +125,104 @@
     },
     "sshKeyPath": "[concat('/home/',parameters('nodeOSSettings').adminUserName,'/.ssh/authorized_keys')]"
   },
-  "resources": [    
+  "resources": [
+
+     {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('nsgName')]",
+      "apiVersion": "[variables('networkApiVersion')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "ssh-rule",
+            "properties": {
+              "description": "Allow SSH",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "web-rule",
+            "properties": {
+              "description": "Allow Web",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "beegfs-admon",
+            "properties": {
+              "description": "Allow BeeGFS admin UI",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8000",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 2000,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "apiVersion": "2016-09-01",
+      "location": "[variables('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+             
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+        }
+      },
+      "dependsOn": [              
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgName'))]"
+      ]
+    },
+
     {
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vmssName')]",
       "location": "[variables('location')]",
-      "apiVersion": "[variables('computeApiVersion')]",  
-        "dependsOn": [
+      "apiVersion": "[variables('computeApiVersion')]",
+      "dependsOn": [
       ],
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('nodeSettings').VMsku]"
         },
         "osProfile": {
-            "computerName": "[parameters('vmssName')]",
-            "adminUsername": "[parameters('nodeOSSettings').adminUserName]",
-            "adminPassword": "[parameters('adminPassword')]"
-          },
+          "computerName": "[parameters('vmssName')]",
+          "adminUsername": "[parameters('nodeOSSettings').adminUserName]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
         "storageProfile": {
           "imageReference": "[parameters('nodeOSSettings').imageReference]",
           "osDisk": {
@@ -149,14 +231,14 @@
           },
           "dataDisks": [ ]
         },
-         "networkProfile": {
+        "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
-        }     
-        }      
+        }
+      }
     }
   ]
 }
