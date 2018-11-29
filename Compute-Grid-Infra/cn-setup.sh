@@ -323,7 +323,7 @@ fi
 set_DNS
 set-hostname
 #setup_nisclient
-setup_user
+#setup_user
 sleep 10
 yum -y install nfs-utils nfs-utils-lib
 mount -a
