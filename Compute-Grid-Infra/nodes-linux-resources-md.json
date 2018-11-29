@@ -135,7 +135,8 @@
         "tier": "Standard",
         "capacity": "[parameters('instanceCount')]"
       },
-      "properties": {        
+      "properties": {
+        "singlePlacementGroup": true,
         "overprovision": "false",
         "upgradePolicy": {
           "mode": "Manual"
@@ -146,8 +147,8 @@
               {
                 "name": "[variables('nicName')]",
                 "properties": {
-                  "primary": "true", 
-                  "enableAcceleratedNetworking": true,                                
+                  "primary": "true",
+                  "enableAcceleratedNetworking": true,
                   "ipConfigurations": [
                     {
                       "name": "[variables('ipConfigName')]",
@@ -165,7 +166,7 @@
           "osProfile": {
             "computerNamePrefix": "[variables('namingInfix')]",
             "adminUsername": "[parameters('nodeOSSettings').adminUserName]",
-             "adminPassword": "[parameters('adminPassword')]"
+            "adminPassword": "[parameters('adminPassword')]"
           },
           "storageProfile": {
             "imageReference": "[parameters('nodeOSSettings').imageReference]",
@@ -173,7 +174,7 @@
               "createOption": "FromImage",
               "caching": "ReadOnly"
             },
-            "dataDisks": []
+            "dataDisks": [ ]
           },
           "extensionProfile": {
             "extensions": [
