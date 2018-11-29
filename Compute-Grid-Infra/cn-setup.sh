@@ -324,9 +324,9 @@ set_DNS
 set-hostname
 #setup_nisclient
 #setup_user
-sleep 10
-yum -y install nfs-utils nfs-utils-lib
-mount -a
+#sleep 10
+#yum -y install nfs-utils nfs-utils-lib
+#mount -a
 if [ "$MONITORING" == "ganglia" ]; then
 	install_ganglia
 fi
@@ -355,7 +355,7 @@ if [ -n "$POST_INSTALL_COMMAND" ]; then
 fi
 # Create marker file so we know we're configured
 touch $SETUP_MARKER
-systemctl stop NetworkManager.service
-systemctl disable NetworkManager.service
+#systemctl stop NetworkManager.service
+#systemctl disable NetworkManager.service
 shutdown -r +1 &
 exit 0
