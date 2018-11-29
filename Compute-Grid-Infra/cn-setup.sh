@@ -320,8 +320,8 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-set_DNS
 set-hostname
+set_DNS
 #setup_nisclient
 #setup_user
 #sleep 10
