@@ -186,6 +186,7 @@
       "apiVersion": "2016-09-01",
       "location": "[variables('location')]",
       "properties": {
+        "enableAcceleratedNetworking": true,
         "ipConfigurations": [
           {
             "name": "ipconfig1",
@@ -194,7 +195,7 @@
                 "id": "[variables('subnetRef')]"
               },
               "privateIPAllocationMethod": "Dynamic"
-             
+
             }
           }
         ],
