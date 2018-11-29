@@ -226,6 +226,23 @@ setup_nfs_in_cron()
 {
 	cat >  /root/setup_nfs.sh << "EOF"
 #!/bin/bash
+SERVER_IP="$(ip addr show eth0 | grep 'inet ' | cut -f2 | awk '{ print $2}')"
+ip="$(echo ${SERVER_IP} | sed 's\/.*\\g')"
+hostip="$(echo ${ip} | sed 's/[.]/-/g')"
+hostname host-"${hostip}"
+
+EOF
+	chmod 700 /root/setup_nfs.sh
+	crontab -l > nascron
+	echo "@reboot /root/setup_nfs.sh >>/root/log.txt" >> nascron
+	crontab nascron
+	rm nascron
+}
+
+setup_hostname_in_cron()
+{
+	cat >  /root/setup_nfs.sh << "EOF"
+#!/bin/bash
 yum -y install nfs-utils nfs-utils-lib
 mount -a
 
