@@ -46,6 +46,7 @@
   },
   "variables": {
     "location": "[resourceGroup().location]",
+    "imageName": "test00-image-20181128154527",
     "namingInfix": "[toLower(take(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 9))]",
     "vnetID": "[resourceId(parameters('nodeSettings').vnetRG, 'Microsoft.Network/virtualNetworks', parameters('nodeSettings').vnetName)]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/', parameters('nodeSettings').subnetName)]",
@@ -168,13 +169,10 @@
             "adminUsername": "[parameters('nodeOSSettings').adminUserName]",
             "adminPassword": "[parameters('adminPassword')]"
           },
-          "storageProfile": {
-            "imageReference": "[parameters('nodeOSSettings').imageReference]",
-            "osDisk": {
-              "createOption": "FromImage",
-              "caching": "ReadOnly"
-            },
-            "dataDisks": [ ]
+          "storageProfile": {           
+            "imageReference": {
+              "id": "[resourceId('Microsoft.Compute/images', variables('imageName'))]"
+            }
           },
           "extensionProfile": {
             "extensions": [
