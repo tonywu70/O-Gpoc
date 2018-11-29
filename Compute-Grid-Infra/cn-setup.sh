@@ -221,8 +221,7 @@ EOF
 	crontab Networkcron
 	rm Networkcron
 }
-
-setup_nfs_in_cron()
+setup_hostname_in_cron()
 {
 	cat >  /root/setup_nfs.sh << "EOF"
 #!/bin/bash
@@ -239,7 +238,7 @@ EOF
 	rm nascron
 }
 
-setup_hostname_in_cron()
+setup_nfs_in_cron()
 {
 	cat >  /root/setup_nfs.sh << "EOF"
 #!/bin/bash
@@ -337,8 +336,9 @@ if is_ubuntu; then
 		sleep 1m
 	done
 fi
-set-hostname
+
 set_DNS
+setup_hostname_in_cron
 #setup_nisclient
 #setup_user
 #sleep 10
