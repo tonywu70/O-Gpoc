@@ -339,7 +339,7 @@ fi
 
 #set_DNS
 set-hostname
-#setup_hostname_in_cron
+setup_hostname_in_cron
 #setup_nisclient
 #setup_user
 #sleep 10
