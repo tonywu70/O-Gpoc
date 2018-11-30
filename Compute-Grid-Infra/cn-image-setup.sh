@@ -337,8 +337,9 @@ if is_ubuntu; then
 	done
 fi
 
-set_DNS
-setup_hostname_in_cron
+#set_DNS
+set-hostname
+#setup_hostname_in_cron
 #setup_nisclient
 #setup_user
 #sleep 10
