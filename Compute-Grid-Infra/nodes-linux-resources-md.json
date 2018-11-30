@@ -110,15 +110,10 @@
         "params": "[concat(' -c ', parameters('postInstallCommand'))]"
       }
     },
-    "cnSetupScript": "cn-setup.sh",
+    "cnSetupScript": "cn-image-setup.sh",
     "vmScripts": {
       "scriptsToDownload": [
-        "[uri(deployment().properties.templateLink.uri, variables('cnSetupScript'))]",
-        "[uri(deployment().properties.templateLink.uri, 'BeeGFS/install_beegfs.sh')]",
-        "[uri(deployment().properties.templateLink.uri, 'PBSPro/install_pbspro.sh')]",
-        "[uri(deployment().properties.templateLink.uri, 'PBSPro/pbs_selfregister.sh')]",
-        "[uri(deployment().properties.templateLink.uri, 'otherstorage/other_nas.sh')]",
-        "[uri(deployment().properties.templateLink.uri, 'Ganglia/install_ganglia.sh')]"
+        "[uri(deployment().properties.templateLink.uri, variables('cnSetupScript'))]"       
       ],
       "commandToExecute": "[concat('bash ', variables('cnSetupScript'), variables('ScriptsOptions')['master'].params, variables('ScriptsOptions')['nasname'].params, variables('ScriptsOptions')['nasdevice'].params, variables('ScriptsOptions')['nasmount'].params, variables('ScriptsOptions')['dnsServerName'].params, variables('ScriptsOptions')['dnsServerIP'].params,variables('ScriptsOptions')['nisDomainName'].params,variables('ScriptsOptions')['nisDomainIP'].params, variables('ScriptsOptions')[parameters('nodeSettings').scheduler].params, variables('ScriptsOptions')[parameters('nodeSettings').sharedStorage].params, variables('ScriptsOptions')[parameters('nodeSettings').monitoring].params, variables('ScriptsOptions')['postinstall'].params, variables('ScriptsOptions')['nfsservername'].params)]"
     },
