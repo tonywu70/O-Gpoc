@@ -312,7 +312,7 @@ setup_intel_mpi()
 }
 
 mkdir -p /var/local
-SETUP_MARKER=/var/local/cn-setup.marker
+SETUP_MARKER=/var/local/cn-image-setup.marker
 if [ -e "$SETUP_MARKER" ]; then
     echo "We're already configured, exiting..."
     exit 0
