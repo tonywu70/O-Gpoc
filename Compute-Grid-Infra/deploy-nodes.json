@@ -70,14 +70,14 @@
       "metadata": {
         "description": "Provide nas device name"
       },
-      "maxLength": 30
+      "maxLength": 60
     },
     "nasMountPoint": {
       "type": "string",
       "metadata": {
         "description": "Provide mount point"
       },
-      "maxLength": 30
+      "maxLength": 60
     },
     "dnsServerDomainName": {
       "type": "string",
