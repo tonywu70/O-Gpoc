@@ -243,7 +243,7 @@
       "subnetName": "[parameters('Computesubnet')]",
       "MasterName": "[parameters('masterName')]",
       "nfsservername": "[parameters('nfsServerName')]",
-      "storageAccountType": "Standard_LRS",
+      "storageAccountType": "Premium_LRS",
       "sharedStorage": "[parameters('sharedStorage')]",
       "nasname": "[parameters('nasName')]",
       "nasdevice": "[parameters('nasDevice')]",
